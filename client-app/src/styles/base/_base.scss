@@ -1,0 +1,19 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  // Defines what 1 rem is.
+  font-size: 62.5%;
+  font-family: Helvetica, sans-serif;
+  letter-spacing: 0.5px;
+  background-color: rgb(233, 235, 238);
+}
+
+body {
+  box-sizing: border-box;
+}

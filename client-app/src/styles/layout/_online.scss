@@ -1,0 +1,51 @@
+.online {
+  &-card {
+    width: 20%;
+    height: 100%;
+    border-radius: 3px;
+    background-color: white;
+    border-top: 1px solid rgb(221, 223, 226);
+    border-left: 1px solid rgb(221, 223, 226);
+    border-right: 1px solid rgb(221, 223, 226);
+
+    @media only screen and (max-width: 600px) {
+      display: none;
+    }
+  }
+
+  &-title {
+    padding: 8px 0;
+    font-size: 1.4rem;
+    padding-left: 10px;
+    background-color: rgb(245, 245, 245);
+    border-bottom: 1px solid rgb(221, 223, 226);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  &-people {
+    padding: 8px 0;
+    padding-left: 12px;
+    font-size: 1.6rem;
+    border-bottom: 1px solid rgb(221, 223, 226);
+    display: flex;
+
+    &:last-child {
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+
+  &-status {
+    background-color: green;
+    height: 10px;
+    width: 10px;
+    margin-right: 30px;
+    margin: auto 0;
+    border-radius: 50%;
+  }
+
+  &-name {
+    margin-left: 10px;
+  }
+}

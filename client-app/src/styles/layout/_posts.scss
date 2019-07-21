@@ -1,0 +1,145 @@
+.post {
+  &-header {
+    margin-top: 20px;
+    height: 100px;
+    overflow: hidden;
+  }
+
+  &-section {
+    width: 50%;
+    @media only screen and (max-width: 600px) {
+      width: 95%;
+    }
+  }
+}
+
+.posts {
+  border: 0.5px solid rgb(221, 223, 226);
+  border-radius: 6px;
+
+  &-create {
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+
+    > textarea {
+      border: none;
+      width: 99.8%;
+      height: 70px;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+      font-size: 1.6rem;
+      padding-left: 9px;
+      padding-top: 4px;
+      resize: none;
+      outline: none;
+    }
+  }
+
+  &-title {
+    font-size: 1.4rem;
+    border-radius: 4px 4px 0 0;
+    background-color: rgb(245, 245, 245);
+    padding: 7px 0 7px 8px;
+    margin: 0 1.1px;
+    border-bottom: 0.5px solid rgb(221, 223, 226);
+  }
+
+  &-btn {
+    padding: 6px 47.2%;
+    border-radius: 5px;
+    text-decoration: none;
+    outline: none;
+    font-size: 1.3rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    &:hover {
+      background-color: grey;
+    }
+  }
+
+  &-b {
+    width: 100%;
+    background-color: rgb(68, 105, 176);
+    border-radius: 5px;
+    padding: 8px 0;
+    cursor: pointer;
+    text-align: center;
+    font-size: 1.6rem;
+    color: white;
+    outline: none;
+    border: none;
+    border-top: 1px solid rgb(221, 223, 226);
+    // border-left: 1px solid rgb(221, 223, 226);
+    border-right: 1px solid rgb(221, 223, 226);
+
+    &:hover {
+      background-color: rgb(50, 80, 160);
+      transition: all 0.7s;
+    }
+  }
+}
+
+.card {
+  background-color: white;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 3px;
+
+  border: 1px solid rgb(221, 223, 226);
+
+  &-header {
+    margin-bottom: 1.2rem;
+  }
+
+  &-logo {
+    width: 40px;
+    height: 40px;
+    float: left;
+    margin-right: 4px;
+    border-radius: 50%;
+    border: 1px solid rgba(221, 223, 226, 0.5);
+  }
+
+  &-name {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.38;
+    color: #365899;
+    text-decoration: none;
+    margin-bottom: 2px;
+  }
+
+  &-time {
+    font-size: 12px;
+    text-decoration: none;
+  }
+
+  &-content {
+    line-height: 1.38;
+    font-size: 1.4rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1rem;
+  }
+
+  &-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10em;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(221, 223, 226);
+
+    & > .fa-thumbs-up {
+      font-size: 2rem;
+    }
+
+    & > .fa-comment {
+      font-size: 2rem;
+    }
+
+    & > .fa-share {
+      font-size: 2rem;
+    }
+  }
+}
