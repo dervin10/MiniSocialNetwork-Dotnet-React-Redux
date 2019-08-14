@@ -3,17 +3,8 @@ import NotificationCard from "./NotificationCard";
 import "../../../styles/layout/_notifications.scss";
 import { connect } from "react-redux";
 import { connection } from "../../../store/SignalRConnection";
-import { newStateNotifications } from "../../../store/Notifications";
 
 class Notifications extends Component {
-  constructor(props) {
-    super(props);
-
-    connection.on("Notifications", response => {
-      this.props.newStateNotifications(JSON.parse(response));
-    });
-  }
-
   render() {
     const notifications = this.props.notifications;
     console.log("NOTIFICATIONS", notifications);
@@ -32,14 +23,11 @@ const mapStoreToProps = store => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    newStateNotifications: notifications =>
-      dispatch(newStateNotifications(notifications))
-  };
-};
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     newStateNotifications: notifications =>
+//       dispatch(newStateNotifications(notifications))
+//   };
+// };
 
-export default connect(
-  mapStoreToProps,
-  mapDispatchToProps
-)(Notifications);
+export default connect(mapStoreToProps)(Notifications);

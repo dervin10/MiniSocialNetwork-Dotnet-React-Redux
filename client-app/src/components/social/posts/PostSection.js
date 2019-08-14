@@ -1,34 +1,40 @@
 import React, { Component } from "react";
 import CreatePost from "./CreatePost";
 import UserPost from "./UserPost";
-import { connect } from 'react-redux'
-import '../../../styles/layout/_posts.scss'
-import { connection } from '../../../store/SignalRConnection'
+import { connect } from "react-redux";
+import "../../../styles/layout/_posts.scss";
+import { connection } from "../../../store/SignalRConnection";
+import { addNewPost, getPost } from "../../../store/Posts";
 
 class PostSection extends Component {
-
-  // componentWillMount() {
-  //   this.props.
-  // }
-  componentDidMount = () => {
-    connection.on("GetFirstTimePost", res => console.log("POSTS SERVER", res))
-  }
   render() {
-    const posts = this.props.posts
+    const posts = this.props.posts;
+
+    fetch("https://localhost:9000/api/post").then(res => res.json());
 
     return (
       <section className="post-section">
-        <CreatePost />
+        <CreatePost addPost={this.props.addPost} />
         <UserPost posts={posts} />
       </section>
     );
   }
 }
 
-const MapStoreToProps = (store) => {
+const MapStoreToProps = store => {
   return {
     posts: store.posts.posts
-  }
-}
+  };
+};
 
-export default connect(MapStoreToProps)(PostSection);
+const MapDispatchToProps = dispatch => {
+  return {
+    addPost: post => dispatch(addNewPost(post)),
+    getPost: post => dispatch(getPost(post))
+  };
+};
+
+export default connect(
+  MapStoreToProps,
+  MapDispatchToProps
+)(PostSection);

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using MongoDB.Driver;
+using CrashCourseUPRB_v2.Model;
+using CrashCourseUPRB_v2.Repository;
 
 namespace CrashCourseUPRB_v2
 {
@@ -16,7 +19,7 @@ namespace CrashCourseUPRB_v2
             Configuration = configuration;
         }
 
-        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins"; 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
         public IConfiguration Configuration { get; }
 
@@ -24,12 +27,29 @@ namespace CrashCourseUPRB_v2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors(
-                builder => 
+
+            services.Configure<Settings>(
+                options =>
                 {
-                    builder.AddPolicy(MyAllowSpecificOrigins, policy => 
+                    options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+                    options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+                }
+            );
+
+            services.AddSingleton<IMongoClient, MongoClient>(
+                _ => new MongoClient(Configuration.GetSection("MongoConnection:ConnectionString").Value)
+            );
+
+            services.AddTransient<IMongoDBContext, MongoDBContext>();
+            services.AddTransient<IPostRepository, PostRepository>();
+
+            services.AddCors(
+                builder =>
+                {
+                    builder.AddPolicy(MyAllowSpecificOrigins, policy =>
                     {
-                        policy.WithOrigins("http://localhost:3000")
+                        // WithOrigins("http://localhost:3000")
+                        policy.AllowAnyOrigin().WithOrigins("http://localhost:3000")
                         .AllowCredentials()
                         .AllowAnyHeader();
                     });
@@ -37,8 +57,8 @@ namespace CrashCourseUPRB_v2
             );
 
             services.AddSignalR();
-            
-            
+
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -53,6 +73,7 @@ namespace CrashCourseUPRB_v2
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseHsts();
             }
             else
             {
@@ -60,28 +81,15 @@ namespace CrashCourseUPRB_v2
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseMvc();
-            // app.UseMvc(routes =>
-            // {
-            //     routes.MapRoute(
-            //         name: "default",
-            //         template: "{controller}/{action=Index}/{id?}");
-            // });
-            
-            
-            // app.UseCors(builder =>
-            // {
-            //     builder.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod().AllowCredentials();
-            // });
-            
 
-            app.UseSignalR(routes => 
+            app.UseSignalR(routes =>
             {
                 routes.MapHub<MyHub>("/social");
             });
@@ -93,6 +101,7 @@ namespace CrashCourseUPRB_v2
                 if (env.IsDevelopment())
                 {
                     spa.UseReactDevelopmentServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
         }
