@@ -5,13 +5,15 @@ import {
   NEW_STATE_SAGA,
   ADD_POST_SAGA,
   LOAD_POST_SAGA,
+  RELOAD_TIME_SAGA,
+  RELOAD_TIME_LOADED,
   LOAD_POST
 } from "../constants/action-types";
 
 export default function* watcherSaga() {
   yield takeEvery(NEW_STATE_SAGA, workerNewOnlines);
   yield takeEvery(ADD_POST_SAGA, workerNewPost);
-  yield takeEvery("RELOAD_TIME", workerSaga);
+  yield takeEvery(RELOAD_TIME_SAGA, workerSaga);
   yield takeEvery(LOAD_POST_SAGA, worketLoadPost);
 }
 
@@ -77,7 +79,7 @@ function* workerNewOnlines(action) {
 function* workerSaga() {
   try {
     const payload = yield call(getData);
-    yield put({ type: "RELOAD_TIME_LOADED", payload });
+    yield put({ type: RELOAD_TIME_LOADED, payload });
   } catch (e) {
     yield alert("SOMTHING WENT WRONG WITH REDUX-SADA");
   }

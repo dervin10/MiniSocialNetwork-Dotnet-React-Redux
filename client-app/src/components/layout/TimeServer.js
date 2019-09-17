@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import "../../styles/layout/_time.scss";
-import { getTimeServer } from "../../actions/index";
+import { getTimeServer } from "../../store/TimeServer";
 
 class TimeServer extends Component {
   componentDidMount() {
