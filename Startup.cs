@@ -40,6 +40,8 @@ namespace CrashCourseUPRB_v2
                 _ => new MongoClient(Configuration.GetSection("MongoConnection:ConnectionString").Value)
             );
 
+            services.AddSingleton<MyHub>();
+
             services.AddTransient<IMongoDBContext, MongoDBContext>();
             services.AddTransient<IPostRepository, PostRepository>();
 

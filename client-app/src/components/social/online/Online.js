@@ -4,7 +4,7 @@ import "../../../styles/layout/_online.scss";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { actionCreators } from "../../../store/Onlines";
-import { connection } from "../../../store/SignalRConnection";
+import { connection } from "../../../store/SignalRBuilder";
 import { newStateOnlines } from "../../../store/Onlines";
 
 class Online extends Component {

@@ -4,6 +4,7 @@ import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
 import apiSaga from "../sagas/api-sagas";
 import * as Onlines from "./Onlines";
+import * as Name from "./Name";
 import * as Notifications from "./Notifications";
 import * as Posts from "./Posts";
 import * as TimeServer from "./TimeServer";
@@ -12,9 +13,10 @@ import { forbiddenWordsMiddleware } from "../middleware/index";
 export default function configureStore(history, initialState) {
   const reducers = {
     onlines: Onlines.reducer,
-    posts: Posts.reducer,
+    postsReducer: Posts.reducer,
     notifications: Notifications.reducer,
-    time: TimeServer.reducer
+    time: TimeServer.reducer,
+    nameReducer: Name.reducer
   };
 
   //   const middleware = [thunk, routerMiddleware(history)];

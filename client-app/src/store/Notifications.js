@@ -8,8 +8,6 @@ export const newStateNotifications = notification => {
 };
 
 export const reducer = (state = initialState, action) => {
-  // state = updateState(state)
-
   switch (action.type) {
     case "NEW_STATE_NOTIFICATION": {
       return Object.assign([], initialState, action.payload);

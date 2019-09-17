@@ -1,0 +1,65 @@
+.card {
+  &-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+    background-image: url("https://scontent-dfw5-1.xx.fbcdn.net/v/t39.2365-6/58265989_1168033593368484_5495562039944282112_n.png?_nc_cat=109&_nc_oc=AQlxj6YitZ8nhUD1MprpM13hZpeaZ33ruGpfuTuZi3oMGsOPAEtP-VhKmwIExhBJ3nY&_nc_ht=scontent-dfw5-1.xx&oh=be8a679acc4e81dddc7b84fa69f5b53f&oe=5E0F3781");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+
+    & > img {
+      width: 60px;
+      height: 60px;
+      position: absolute;
+      top: 3px;
+      left: 5px;
+    }
+  }
+  &-auth {
+    background: white;
+    width: 400px;
+    height: 200px;
+    text-align: center;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+      0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    & > h1 {
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    & > input {
+      margin: 25px auto;
+      height: 40px;
+      width: 320px;
+      font-size: 20px;
+      border: none;
+      box-shadow: 1px 1px 3px grey;
+      padding-left: 5px;
+      outline: none;
+      transition: 0.2s all;
+
+      &:focus {
+        border-bottom: 1px solid blue;
+      }
+    }
+
+    & > button {
+      background: blue;
+      height: 40px;
+      width: 120px;
+      margin: 0 auto;
+      border-radius: 3px;
+      color: white;
+      font-size: 18px;
+    }
+  }
+}

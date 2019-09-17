@@ -14,10 +14,12 @@ namespace CrashCourseUPRB_v2.Controllers
     public class ApiController : ControllerBase
     {
         private readonly IPostRepository _postRepo;
+        private readonly MyHub _myHub;
 
-        public ApiController(IPostRepository postRepository)
+        public ApiController(IPostRepository postRepository, MyHub myHub)
         {
             _postRepo = postRepository;
+            _myHub = myHub;
         }
 
         [HttpGet]
@@ -34,12 +36,12 @@ namespace CrashCourseUPRB_v2.Controllers
                 string body = stream.ReadToEnd();
                 dynamic bodySer = JsonConvert.DeserializeObject(body);
                 // body = "param=somevalue&param2=someothervalue"
-                Console.WriteLine(bodySer.message);
-                await _postRepo.Create(new Post { ID = "", Name = "test", Content = bodySer.message });
+                await _postRepo.Create(new Post { ID = "", Name = bodySer.username, Content = bodySer.content, Time = DateTime.UtcNow });
             }
-            return new ObjectResult(await _postRepo.GetAllPosts());
+
+            await _myHub.Clients.All.SendCoreAsync("Posts",
+                new object[] { JsonConvert.SerializeObject(await _postRepo.GetAllPosts()) });
+            return new OkResult();
         }
-
-
     }
 }

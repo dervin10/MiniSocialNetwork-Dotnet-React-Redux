@@ -7,7 +7,7 @@ export function forbiddenWordsMiddleware({ dispatch, getState }) {
   return function(next) {
     return function(action) {
       // do your stuff
-
+      // const forbiddenWord = ["facebook", "instagram"];
       if (action.type === ADD_POST) {
         console.log("ENTRO AL MIDDLEWARE");
         var strReplaced = "";

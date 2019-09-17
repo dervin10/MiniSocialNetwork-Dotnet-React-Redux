@@ -1,10 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { addPost } from "../../../store/Posts";
-import { connection } from "../../../store/SignalRConnection";
-
-// Estaba bregando el post agregar a la base de datos desde react,
-// el backend con mongo pienso que esta bastante bien, solo faltaria conectarlo.
 
 class CreatePost extends Component {
   state = {
@@ -18,11 +12,11 @@ class CreatePost extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { content } = this.state;
-    console.log("handleSubmit", this.props);
 
-    const forbiddenWord = ["facebook", "instagram"];
-    this.props.addPost(this.state.content);
+    this.props.addPost({
+      content: this.state.content,
+      username: this.props.username
+    });
     this.setState({
       content: ""
     });

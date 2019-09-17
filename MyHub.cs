@@ -11,14 +11,11 @@ namespace CrashCourseUPRB_v2
 {
     public class MyHub : Hub
     {
-        static Queue<Post> posts = new Queue<Post>();
-
         static Queue<Online> onlines = new Queue<Online>();
 
         static Queue<Notification> notification = new Queue<Notification>();
 
         private static readonly string GroupSocial = "SOCIALNETWORK";
-
 
         // Testing Purposes
         public async Task Testing(string message)
@@ -35,60 +32,49 @@ namespace CrashCourseUPRB_v2
             onlines.Enqueue(new Online { ID = Context.ConnectionId, Name = username });
             notification.Enqueue(new Notification { ID = Context.ConnectionId, Name = username, Information = "Logged in..." });
 
-            await Clients.Caller.SendAsync("GetFirstTimePost", JsonConvert.SerializeObject(posts));
             await Clients.All.SendAsync("Onlines", JsonConvert.SerializeObject(onlines));
             await Clients.All.SendAsync("Notifications", JsonConvert.SerializeObject(notification));
         }
 
-        // public async Task Post(object message)
-        // {
-        //     var username = onlines.Find(online => online.ID == Context.ConnectionId).Name;
-        //     posts.Enqueue(new Post { ID = Context.ConnectionId, Name = username, Content = message.ToString(), Time = new DateTime() });
-        //     notification.Enqueue(new Notification { ID = Context.ConnectionId, Name = username, Information = " has posted." });
-        //     await Clients.All.SendAsync("Post", JsonConvert.SerializeObject(posts.Reverse()));
-        //     await Clients.All.SendAsync("Notifications", JsonConvert.SerializeObject(notification.Reverse()));
-        // }
-
-        public async override Task OnConnectedAsync()
+        public async Task UserPosted(string username)
         {
-            // onlines.Add(Context.ConnectionId, )
+            notification.Enqueue(new Notification { ID = Context.ConnectionId, Name = username, Information = "has posted..." });
+            await Clients.All.SendAsync("Notifications", JsonConvert.SerializeObject(notification));
         }
 
         public async override Task OnDisconnectedAsync(Exception exception)
         {
-            var onlineList = onlines.ToList().RemoveAll(onlines => onlines.ID.Equals(Context.ConnectionId));
-            onlines = new Queue<Online>(onlineList);
-            var notificationList = notification.ToList().RemoveAll(notification => notification.ID.Equals(Context.ConnectionId));
-            notification = new Queue<Notification>(notificationList);
+            onlines = RemoveSpecificOnline(Context.ConnectionId);
+            notification = RemoveSpecificNotification(Context.ConnectionId);
+
             await Clients.All.SendAsync("Onlines", JsonConvert.SerializeObject(onlines));
             await Clients.All.SendAsync("Notifications", JsonConvert.SerializeObject(notification));
         }
 
-        public string GetOnline()
+        public static Queue<Online> RemoveSpecificOnline(string id)
         {
-            return JsonConvert.SerializeObject(onlines);
+            Queue<Online> temp = new Queue<Online>();
+
+            while (onlines.Count > 0)
+            {
+                Online hold = onlines.Dequeue();
+                if (hold.ID != id)
+                    temp.Enqueue(hold);
+            }
+            return temp;
         }
 
-        public static T RemoveSpecific<T>(string id, Queue<T> list)
+        public static Queue<Notification> RemoveSpecificNotification(string id)
         {
-            T result = default(T);
+            Queue<Notification> temp = new Queue<Notification>();
 
-            return result;
+            while (notification.Count > 0)
+            {
+                Notification hold = notification.Dequeue();
+                if (hold.ID != id)
+                    temp.Enqueue(hold);
+            }
+            return temp;
         }
-    }
-
-
-
-    public class Online
-    {
-        public string ID { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class Notification
-    {
-        public string ID { get; set; }
-        public string Information { get; set; }
-        public string Name { get; set; }
     }
 }
